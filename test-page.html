@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuietTab Test Page - Resource Heavy Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .demo-section {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .resource-heavy {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left-color: #ef4444;
+            border-width: 5px;
+        }
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        .button:active {
+            transform: translateY(0);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .status.good {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+        .status.warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            border: 2px solid #f59e0b;
+        }
+        .status.bad {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #991b1b;
+            border: 2px solid #ef4444;
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        }
+        #performanceLog {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 2px solid #374151;
+        }
+        
+        /* Enhanced Canvas Styles */
+        .canvas-container {
+            position: relative;
+            background: linear-gradient(45deg, #000428 0%, #004e92 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #demoCanvas {
+            border: 3px solid #667eea;
+            border-radius: 8px;
+            background: #000;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        /* Visual Effects Containers */
+        .effects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .effect-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .effect-box.active {
+            border-color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+            animation: shake 0.5s infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+        
+        /* Spinning Elements */
+        .spinner-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100px;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid #ef4444;
+            border-radius: 50%;
+            animation: spin 0.1s linear infinite;
+        }
+        
+        .spinner.slow {
+            animation-duration: 2s;
+            border-top-color: #10b981;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Flashing Elements */
+        .flash-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+        }
+        
+        .flash-box {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border-radius: 4px;
+            animation: flash 0.1s infinite alternate;
+        }
+        
+        .flash-box.slow {
+            animation-duration: 1s;
+            background: #10b981;
+        }
+        
+        @keyframes flash {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* CPU Usage Meter */
+        .cpu-meter {
+            background: #1f2937;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            color: white;
+        }
+        
+        .cpu-bar {
+            width: 100%;
+            height: 30px;
+            background: #374151;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .cpu-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 15px;
+        }
+        
+        /* Network Activity Visualization */
+        .network-activity {
+            background: #111827;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+            min-height: 120px;
+            overflow: hidden;
+        }
+        
+        .network-request {
+            padding: 5px 0;
+            opacity: 0;
+            animation: slideIn 0.5s ease forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Memory Usage Visualization */
+        .memory-blocks {
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            gap: 2px;
+            margin: 20px 0;
+        }
+        
+        .memory-block {
+            height: 20px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .memory-block.used {
+            background: #ef4444;
+            animation: memoryPulse 1s infinite;
+        }
+        
+        .memory-block.optimized {
+            background: #10b981;
+            animation: none;
+        }
+        
+        @keyframes memoryPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Quiet Mode Indicator */
+        .quiet-mode-overlay {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+            display: none;
+            z-index: 1000;
+            animation: slideInRight 0.5s ease;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .performance-impact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .impact-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .impact-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .impact-value.high {
+            color: #ef4444;
+            animation: bounce 1s infinite;
+        }
+        
+        .impact-value.low {
+            color: #10b981;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔇 QuietTab Test Page</h1>
+        <p>Experience the dramatic difference QuietTab makes with these intensive visual demonstrations</p>
+    </div>
+
+    <div class="demo-section">
+        <h2>📊 How to Test QuietTab</h2>
+        <ol>
+            <li><strong>Install QuietTab:</strong> Load the extension in Chrome (see README.md)</li>
+            <li><strong>Click buttons below:</strong> Start resource-heavy simulations</li>
+            <li><strong>Watch the chaos:</strong> See CPU usage spike and animations go crazy</li>
+            <li><strong>Open QuietTab:</strong> Click the extension icon in your toolbar</li>
+            <li><strong>Activate Quiet Mode:</strong> Click the "Activate" button</li>
+            <li><strong>Feel the relief:</strong> Watch everything slow down and CPU usage drop</li>
+        </ol>
+    </div>
+
+    <div class="demo-section resource-heavy">
+        <h2>⚠️ Resource-Heavy Simulations</h2>
+        <p><strong>WARNING:</strong> These simulations will intentionally stress your browser to demonstrate QuietTab's effectiveness!</p>
+        
+        <button class="button" onclick="startHeavyAnimations()">🔥 Start Heavy Animations</button>
+        <button class="button" onclick="startFrequentTimers()">⏰ Start Frequent Timers</button>
+        <button class="button" onclick="simulateAdRequests()">📡 Simulate Ad Networks</button>
+        <button class="button" onclick="startCanvasAnimation()">🎨 Start Canvas Chaos</button>
+        <button class="button" onclick="startAllEffects()">💥 START ALL (Max Stress)</button>
+        <button class="button" onclick="stopAll()" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">🛑 Stop All</button>
+        
+        <div id="status" class="status good">
+            Status: Ready to test - Click buttons above to simulate resource-heavy scripts
+        </div>
+    </div>
+
+    <!-- CPU Usage Meter -->
+    <div class="demo-section">
+        <h2>💻 CPU Usage Monitor</h2>
+        <div class="cpu-meter">
+            <div>CPU Usage: <span id="cpuPercentage">5%</span></div>
+            <div class="cpu-bar">
+                <div class="cpu-fill" id="cpuFill"></div>
+            </div>
+            <div id="cpuStatus">Normal - Browser running smoothly</div>
+        </div>
+    </div>
+
+    <!-- Visual Effects Grid -->
+    <div class="demo-section">
+        <h2>🎯 Visual Impact Demonstration</h2>
+        <div class="effects-grid">
+            <div class="effect-box" id="spinnerBox">
+                <h3>🌀 Animation Overload</h3>
+                <div class="spinner-container" id="spinnerContainer">
+                    <!-- Spinners will be added dynamically -->
+                </div>
+                <p>Watch these spinners go crazy when heavy animations start!</p>
+            </div>
+            
+            <div class="effect-box" id="flashBox">
+                <h3>⚡ Flashing Elements</h3>
+                <div class="flash-grid" id="flashGrid">
+                    <!-- Flash boxes will be added dynamically -->
+                </div>
+                <p>Rapid flashing simulates ad banner animations</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Memory Usage -->
+    <div class="demo-section">
+        <h2>🧠 Memory Usage Visualization</h2>
+        <div class="memory-blocks" id="memoryBlocks">
+            <!-- Memory blocks will be added dynamically -->
+        </div>
+        <p><strong>Red blocks:</strong> Memory consumed by heavy scripts | <strong>Green blocks:</strong> Optimized by QuietTab</p>
+    </div>
+
+    <!-- Network Activity -->
+    <div class="demo-section">
+        <h2>📡 Network Activity Monitor</h2>
+        <div class="network-activity" id="networkActivity">
+            <div>Monitoring network requests...</div>
+        </div>
+    </div>
+
+    <!-- Enhanced Canvas Animation -->
+    <div class="demo-section">
+        <h2>🎨 Intensive Canvas Animation</h2>
+        <div class="canvas-container">
+            <canvas id="demoCanvas" width="800" height="400"></canvas>
+            <p style="color: white; margin-top: 15px;">
+                <strong>This canvas renders hundreds of animated particles at 60fps.</strong><br>
+                When QuietTab's Quiet Mode activates, you'll see the frame rate drop dramatically and particles slow down.
+            </p>
+        </div>
+    </div>
+
+    <!-- Performance Impact Cards -->
+    <div class="demo-section">
+        <h2>📈 Performance Impact</h2>
+        <div class="performance-impact">
+            <div class="impact-card">
+                <h3>🔥 Before QuietTab</h3>
+                <div class="impact-value high" id="beforeValue">95%</div>
+                <p>CPU Usage</p>
+            </div>
+            <div class="impact-card">
+                <h3>😌 After QuietTab</h3>
+                <div class="impact-value low" id="afterValue">25%</div>
+                <p>CPU Usage</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Log -->
+    <div class="demo-section">
+        <h2>📈 Real-time Performance Log</h2>
+        <div id="performanceLog">
+            Performance monitoring started...<br>
+        </div>
+    </div>
+
+    <!-- Quiet Mode Overlay -->
+    <div class="quiet-mode-overlay" id="quietModeOverlay">
+        🔇 QuietTab Quiet Mode Active - Performance Optimized!
+    </div>
+
+    <div class="demo-section">
+        <h2>🧪 What QuietTab Does</h2>
+        <ul>
+            <li><strong>Detects:</strong> Resource-heavy scripts, frequent timers, large network requests</li>
+            <li><strong>Throttles:</strong> Animation frames from 60fps to 20fps, timer intervals, ad-related requests</li>
+            <li><strong>Protects:</strong> Essential functionality while dramatically reducing resource usage</li>
+            <li><strong>Provides:</strong> Immediate visual feedback and easy restoration</li>
+        </ul>
+    </div>
+
+    <script>
+        let heavyAnimationId;
+        let frequentTimers = [];
+        let canvasAnimationId;
+        let performanceInterval;
+        let networkInterval;
+        let cpuUsage = 5;
+        let isQuietModeActive = false;
+        let particles = [];
+        let animationSpeed = 1;
+        
+        // Initialize visual elements
+        function initializeVisuals() {
+            // Create spinners
+            const spinnerContainer = document.getElementById('spinnerContainer');
+            for (let i = 0; i < 5; i++) {
+                const spinner = document.createElement('div');
+                spinner.className = 'spinner';
+                spinnerContainer.appendChild(spinner);
+            }
+            
+            // Create flash boxes
+            const flashGrid = document.getElementById('flashGrid');
+            for (let i = 0; i < 24; i++) {
+                const flashBox = document.createElement('div');
+                flashBox.className = 'flash-box';
+                flashGrid.appendChild(flashBox);
+            }
+            
+            // Create memory blocks
+            const memoryBlocks = document.getElementById('memoryBlocks');
+            for (let i = 0; i < 100; i++) {
+                const block = document.createElement('div');
+                block.className = 'memory-block';
+                memoryBlocks.appendChild(block);
+            }
+            
+            // Initialize canvas particles
+            initializeParticles();
+        }
+        
+        function initializeParticles() {
+            const canvas = document.getElementById('demoCanvas');
+            particles = [];
+            for (let i = 0; i < 200; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: (Math.random() - 0.5) * 4,
+                    size: Math.random() * 5 + 2,
+                    color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+                    life: 1
+                });
+            }
+        }
+        
+        function updateCPUUsage(usage) {
+            cpuUsage = Math.min(100, Math.max(0, usage));
+            const cpuFill = document.getElementById('cpuFill');
+            const cpuPercentage = document.getElementById('cpuPercentage');
+            const cpuStatus = document.getElementById('cpuStatus');
+            
+            cpuFill.style.width = cpuUsage + '%';
+            cpuPercentage.textContent = Math.round(cpuUsage) + '%';
+            
+            if (cpuUsage > 80) {
+                cpuStatus.textContent = 'CRITICAL - Browser severely stressed!';
+                cpuStatus.style.color = '#ef4444';
+            } else if (cpuUsage > 50) {
+                cpuStatus.textContent = 'HIGH - Significant resource usage';
+                cpuStatus.style.color = '#f59e0b';
+            } else {
+                cpuStatus.textContent = 'Normal - Browser running smoothly';
+                cpuStatus.style.color = '#10b981';
+            }
+        }
+        
+        function updateMemoryVisualization() {
+            const blocks = document.querySelectorAll('.memory-block');
+            const usedBlocks = Math.floor((cpuUsage / 100) * blocks.length);
+            
+            blocks.forEach((block, index) => {
+                if (index < usedBlocks) {
+                    block.className = isQuietModeActive ? 'memory-block optimized' : 'memory-block used';
+                } else {
+                    block.className = 'memory-block';
+                }
+            });
+        }
+        
+        function logPerformance(message) {
+            const log = document.getElementById('performanceLog');
+            const timestamp = new Date().toLocaleTimeString();
+            log.innerHTML += `[${timestamp}] ${message}<br>`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function updateStatus(message, type = 'good') {
+            const status = document.getElementById('status');
+            status.textContent = `Status: ${message}`;
+            status.className = `status ${type}`;
+        }
+        
+        function addNetworkRequest(url, type) {
+            const networkActivity = document.getElementById('networkActivity');
+            const request = document.createElement('div');
+            request.className = 'network-request';
+            request.innerHTML = `→ ${type}: ${url}`;
+            networkActivity.appendChild(request);
+            
+            // Remove old requests
+            const requests = networkActivity.querySelectorAll('.network-request');
+            if (requests.length > 10) {
+                requests[0].remove();
+            }
+        }
+
+        // Heavy animations simulation with dramatic visual effects
+        function startHeavyAnimations() {
+            stopHeavyAnimations();
+            logPerformance('🔥 STARTING HEAVY ANIMATIONS - Expect high CPU usage!');
+            updateStatus('Heavy animations running - EXTREME CPU usage!', 'bad');
+            
+            // Make effect boxes shake
+            document.getElementById('spinnerBox').classList.add('active');
+            document.getElementById('flashBox').classList.add('active');
+            
+            let frame = 0;
+            function animate() {
+                frame++;
+                // Simulate extremely heavy computation
+                for (let i = 0; i < 50000; i++) {
+                    Math.random() * Math.random() * Math.sin(frame);
+                }
+                
+                // Update CPU usage
+                updateCPUUsage(85 + Math.random() * 15);
+                updateMemoryVisualization();
+                
+                heavyAnimationId = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function stopHeavyAnimations() {
+            if (heavyAnimationId) {
+                cancelAnimationFrame(heavyAnimationId);
+                heavyAnimationId = null;
+                logPerformance('✅ Stopped heavy animations');
+                document.getElementById('spinnerBox').classList.remove('active');
+                document.getElementById('flashBox').classList.remove('active');
+            }
+        }
+
+        // Frequent timers with visual feedback
+        function startFrequentTimers() {
+            stopFrequentTimers();
+            logPerformance('⏰ STARTING FREQUENT TIMERS - Creating timer chaos!');
+            updateStatus('Frequent timers running - Browser overwhelmed!', 'bad');
+            
+            // Create 50 frequent timers
+            for (let i = 0; i < 50; i++) {
+                const timer = setInterval(() => {
+                    // Simulate work and update visuals
+                    for (let j = 0; j < 5000; j++) {
+                        Math.random();
+                    }
+                    updateCPUUsage(Math.min(cpuUsage + 1, 95));
+                }, 5); // Every 5ms!
+                frequentTimers.push(timer);
+            }
+        }
+
+        function stopFrequentTimers() {
+            frequentTimers.forEach(timer => clearInterval(timer));
+            frequentTimers = [];
+            logPerformance('✅ Stopped frequent timers');
+        }
+
+        // Simulate ad requests with network visualization
+        function simulateAdRequests() {
+            logPerformance('📡 SIMULATING AD NETWORK CHAOS');
+            updateStatus('Simulating aggressive ad networks - Network flooded!', 'warning');
+            
+            const adDomains = [
+                'https://doubleclick.net/heavy-ad-script.js',
+                'https://googlesyndication.com/massive-tracker.js',
+                'https://amazon-adsystem.com/cpu-killer.js',
+                'https://facebook.com/tr/analytics-overload.js',
+                'https://google-analytics.com/spam-tracker.js'
+            ];
+            
+            // Simulate rapid network requests
+            networkInterval = setInterval(() => {
+                const domain = adDomains[Math.floor(Math.random() * adDomains.length)];
+                addNetworkRequest(domain, 'AD REQUEST');
+                
+                // Simulate network overhead
+                updateCPUUsage(Math.min(cpuUsage + 2, 90));
+                
+                // Simulate fetch request (will fail, but QuietTab will detect the pattern)
+                fetch(domain).catch(() => {
+                    logPerformance(`📡 Blocked request to ${domain}`);
+                });
+            }, 100); // Every 100ms
+        }
+
+        // Enhanced canvas animation with hundreds of particles
+        function startCanvasAnimation() {
+            stopCanvasAnimation();
+            logPerformance('🎨 STARTING INTENSIVE CANVAS ANIMATION');
+            updateStatus('Canvas rendering hundreds of particles at 60fps!', 'warning');
+            
+            const canvas = document.getElementById('demoCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            function animateCanvas() {
+                // Clear with trail effect
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Update and draw particles
+                particles.forEach(particle => {
+                    // Update position
+                    particle.x += particle.vx * animationSpeed;
+                    particle.y += particle.vy * animationSpeed;
+                    
+                    // Bounce off walls
+                    if (particle.x <= 0 || particle.x >= canvas.width) particle.vx *= -1;
+                    if (particle.y <= 0 || particle.y >= canvas.height) particle.vy *= -1;
+                    
+                    // Draw particle with glow effect
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    ctx.fillStyle = particle.color;
+                    ctx.fill();
+                    
+                    // Add glow
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = particle.color;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                });
+                
+                // Simulate heavy computation
+                for (let i = 0; i < 10000; i++) {
+                    Math.random() * Math.sin(Date.now());
+                }
+                
+                updateCPUUsage(Math.min(cpuUsage + 0.5, 85));
+                canvasAnimationId = requestAnimationFrame(animateCanvas);
+            }
+            animateCanvas();
+        }
+
+        function stopCanvasAnimation() {
+            if (canvasAnimationId) {
+                cancelAnimationFrame(canvasAnimationId);
+                canvasAnimationId = null;
+                logPerformance('✅ Stopped canvas animation');
+            }
+        }
+        
+        function startAllEffects() {
+            logPerformance('💥 STARTING ALL EFFECTS - MAXIMUM BROWSER STRESS!');
+            updateStatus('ALL EFFECTS ACTIVE - Browser under extreme stress!', 'bad');
+            
+            startHeavyAnimations();
+            setTimeout(() => startFrequentTimers(), 500);
+            setTimeout(() => simulateAdRequests(), 1000);
+            setTimeout(() => startCanvasAnimation(), 1500);
+            
+            // Update performance impact cards
+            document.getElementById('beforeValue').textContent = '95%';
+            document.getElementById('beforeValue').className = 'impact-value high';
+        }
+
+        function stopAll() {
+            stopHeavyAnimations();
+            stopFrequentTimers();
+            stopCanvasAnimation();
+            if (networkInterval) {
+                clearInterval(networkInterval);
+                networkInterval = null;
+            }
+            
+            updateStatus('All simulations stopped - Browser recovering', 'good');
+            logPerformance('🛑 All resource-heavy simulations stopped');
+            updateCPUUsage(5);
+            updateMemoryVisualization();
+            
+            // Hide quiet mode overlay
+            document.getElementById('quietModeOverlay').style.display = 'none';
+            isQuietModeActive = false;
+            animationSpeed = 1;
+            
+            // Reset spinners and flash boxes
+            document.querySelectorAll('.spinner').forEach(s => s.className = 'spinner');
+            document.querySelectorAll('.flash-box').forEach(f => f.className = 'flash-box');
+        }
+
+        // Listen for QuietTab messages
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'QUIETTAB_ACTIVATE') {
+                logPerformance('🔇 QuietTab Quiet Mode ACTIVATED - Throttling everything!');
+                updateStatus('QuietTab Quiet Mode ACTIVE - Performance dramatically improved!', 'good');
+                
+                isQuietModeActive = true;
+                animationSpeed = 0.3; // Slow down canvas animation
+                
+                // Show quiet mode overlay
+                document.getElementById('quietModeOverlay').style.display = 'block';
+                
+                // Slow down spinners and flash boxes
+                document.querySelectorAll('.spinner').forEach(s => s.classList.add('slow'));
+                document.querySelectorAll('.flash-box').forEach(f => f.classList.add('slow'));
+                
+                // Reduce CPU usage
+                updateCPUUsage(Math.max(cpuUsage * 0.3, 15));
+                updateMemoryVisualization();
+                
+                // Update performance impact cards
+                document.getElementById('afterValue').textContent = '25%';
+                document.getElementById('afterValue').className = 'impact-value low';
+                
+            } else if (event.data.type === 'QUIETTAB_DEACTIVATE') {
+                logPerformance('🔊 QuietTab Quiet Mode DEACTIVATED - Back to normal');
+                updateStatus('QuietTab Quiet Mode deactivated - Normal operation resumed', 'good');
+                
+                isQuietModeActive = false;
+                animationSpeed = 1;
+                
+                // Hide quiet mode overlay
+                document.getElementById('quietModeOverlay').style.display = 'none';
+                
+                // Restore normal speed
+                document.querySelectorAll('.spinner').forEach(s => s.classList.remove('slow'));
+                document.querySelectorAll('.flash-box').forEach(f => f.classList.remove('slow'));
+                
+                updateMemoryVisualization();
+            }
+        });
+
+        // Start performance monitoring
+        performanceInterval = setInterval(() => {
+            if (performance.memory) {
+                const memory = performance.memory;
+                logPerformance(`💾 Memory: ${Math.round(memory.usedJSHeapSize / 1024 / 1024)}MB used`);
+            }
+            
+            // Gradually reduce CPU usage when idle
+            if (!heavyAnimationId && frequentTimers.length === 0 && !canvasAnimationId && !networkInterval) {
+                updateCPUUsage(Math.max(cpuUsage - 1, 5));
+                updateMemoryVisualization();
+            }
+        }, 2000);
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeVisuals();
+            updateCPUUsage(5);
+            updateMemoryVisualization();
+            logPerformance('🚀 Enhanced test page loaded - Ready for extreme QuietTab testing!');
+        });
+    </script>
+</body>
+</html>
+
