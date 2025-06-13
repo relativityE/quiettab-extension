@@ -41,6 +41,12 @@ class QuietTabPopup {
       this.toggleQuietMode();
     });
 
+    // Test button
+    const testButton = document.getElementById('testButton');
+    testButton.addEventListener('click', () => {
+      this.openTestPage();
+    });
+
     // Settings button
     const settingsButton = document.getElementById('settingsButton');
     settingsButton.addEventListener('click', () => {
@@ -96,12 +102,12 @@ class QuietTabPopup {
 
   updatePerformanceDisplay() {
     const resourceList = document.getElementById('resourceList');
-    
+
     if (!this.performanceData || !this.performanceData.topResources || this.performanceData.topResources.length === 0) {
       resourceList.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">✅</div>
-          <div class="empty-state-text">No resource-heavy scripts detected.<br>Your browser is running smoothly!</div>
+          <div class="empty-state-text">No resource-heavy scripts detected.<br><strong>Your browser is running smoothly!</strong></div>
         </div>
       `;
       return;
@@ -110,11 +116,11 @@ class QuietTabPopup {
     const resourcesHtml = this.performanceData.topResources.map(resource => {
       const impact = this.calculateImpact(resource);
       const impactClass = impact.level.toLowerCase();
-      
+
       return `
         <div class="resource-item ${impactClass}-impact fade-in">
           <div class="resource-info">
-            <div class="resource-type">${resource.type}</div>
+            <div class="resource-type">${this.escapeHtml(resource.type)}</div>
             <div class="resource-details">
               ${this.formatSize(resource.size)} • ${this.formatDuration(resource.duration)}
             </div>
@@ -125,6 +131,12 @@ class QuietTabPopup {
     }).join('');
 
     resourceList.innerHTML = resourcesHtml;
+  }
+
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   calculateImpact(resource) {
@@ -236,29 +248,47 @@ class QuietTabPopup {
     }
   }
 
-  showFeedback(message) {
+  showFeedback(message, type = 'success') {
     // Create temporary feedback element
     const feedback = document.createElement('div');
+    const bgColor = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b';
+
     feedback.style.cssText = `
       position: fixed;
-      top: 10px;
+      top: 15px;
       left: 50%;
       transform: translateX(-50%);
-      background: #10b981;
+      background: ${bgColor};
       color: white;
-      padding: 8px 16px;
-      border-radius: 6px;
+      padding: 12px 20px;
+      border-radius: 8px;
       font-size: 14px;
+      font-weight: 500;
       z-index: 1000;
-      animation: fadeIn 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      animation: slideInDown 0.3s ease;
     `;
     feedback.textContent = message;
-    
+
+    // Add slide in animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideInDown {
+        from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+
     document.body.appendChild(feedback);
-    
+
     setTimeout(() => {
-      feedback.remove();
-    }, 2000);
+      feedback.style.animation = 'slideInDown 0.3s ease reverse';
+      setTimeout(() => {
+        feedback.remove();
+        style.remove();
+      }, 300);
+    }, 2500);
   }
 
   showError(message = 'Something went wrong') {
@@ -271,9 +301,17 @@ class QuietTabPopup {
     `;
   }
 
+  openTestPage() {
+    // Open test page in a new tab
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('test-page.html')
+    });
+    this.showFeedback('Test page opened! Try the simulations.');
+  }
+
   openSettings() {
     // Open settings page (could be implemented later)
-    this.showFeedback('Settings coming soon!');
+    this.showFeedback('Settings coming soon!', 'info');
   }
 
   openHelp() {

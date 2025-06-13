@@ -29,7 +29,7 @@ QuietTab is a Chrome extension that shows you exactly what's making your browser
 
 ## Installation
 
-### Method 1: Load Unpacked Extension (Developer Mode)
+### Method 1: Load Unpacked Extension (Developer Mode) - RECOMMENDED
 
 1. **Enable Developer Mode in Chrome:**
    - Open Chrome and go to `chrome://extensions/`
@@ -43,6 +43,11 @@ QuietTab is a Chrome extension that shows you exactly what's making your browser
 3. **Pin the Extension:**
    - Click the puzzle piece icon in Chrome's toolbar
    - Find QuietTab and click the pin icon to keep it visible
+
+4. **Test the Extension:**
+   - Click the QuietTab icon to open the popup
+   - Click "🧪 Test Page" to open the demonstration page
+   - Try the resource-heavy simulations to see QuietTab in action!
 
 ### Method 2: Package and Install
 
@@ -80,6 +85,36 @@ QuietTab is a Chrome extension that shows you exactly what's making your browser
 - **Resource Activity:** Lists the top 3 resource-heavy scripts with impact levels
 - **Instant Quiet Mode:** One-click toggle for performance relief
 - **Performance Impact:** Shows CPU and network usage improvements when active
+- **Test Page Button:** Opens a demonstration page to test QuietTab's effectiveness
+
+### Testing QuietTab
+
+**IMPORTANT:** Use the built-in test page to see QuietTab in action!
+
+1. **Open Test Page:**
+   - Click the QuietTab icon in your toolbar
+   - Click "🧪 Test Page" button
+   - This opens a special demonstration page
+
+2. **Run Simulations:**
+   - Click "💥 START ALL" to simulate heavy resource usage
+   - Watch CPU usage spike and animations go crazy
+   - Notice your browser becoming sluggish
+
+3. **Activate QuietTab:**
+   - Click the QuietTab icon while simulations are running
+   - Click "Activate" to enable Quiet Mode
+   - **Immediately see the difference:**
+     - CPU usage drops dramatically
+     - Animations slow down
+     - Memory blocks turn green
+     - Browser becomes responsive again
+
+4. **Visual Feedback:**
+   - Green memory blocks show optimized resources
+   - Slower animations indicate throttling is working
+   - CPU meter shows reduced usage
+   - Performance impact cards show before/after comparison
 
 ### When to Use Quiet Mode
 
@@ -208,4 +243,3 @@ For issues, questions, or feedback:
 ---
 
 **Remember:** QuietTab is a **performance tool that happens to block ads** rather than an **ad blocker that happens to improve performance**. This positioning makes it genuinely differentiated and valuable for users frustrated with browser performance.
-
