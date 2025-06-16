@@ -1,89 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuietTab</title>
-  <link rel="stylesheet" href="popup.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuietTab</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 380px;
+            height: 500px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            padding: 24px 20px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .site-info {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .site-url {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .site-status {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .status-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .status-indicator {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .status-indicator.active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .status-indicator.inactive {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+        }
+
+        .status-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .status-description {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .metrics {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .toggle-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #10b981;
+            color: white;
+        }
+
+        .toggle-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .toggle-button.inactive {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .toggle-button.inactive:hover {
+            background: #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            padding: 12px 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .footer-link {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 12px;
+            margin: 0 12px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: #1e293b;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <div class="logo">
-        <img src="icons/icon32.png" alt="QuietTab" class="logo-icon">
-        <h1>QuietTab</h1>
-      </div>
-      <div class="status-indicator" id="statusIndicator">
-        <span class="status-dot" id="statusDot"></span>
-        <span class="status-text" id="statusText">Monitoring</span>
-      </div>
-    </div>
-
-    <!-- Performance Overview -->
-    <div class="performance-section">
-      <h2>Resource Activity</h2>
-      <div class="resource-list" id="resourceList">
-        <div class="loading">
-          <div class="spinner"></div>
-          <span>Analyzing page performance...</span>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔇 QuietTab</div>
+            <div class="tagline">Browser performance optimization</div>
         </div>
-      </div>
-    </div>
 
-    <!-- Quiet Mode Control -->
-    <div class="control-section">
-      <div class="quiet-mode-card" id="quietModeCard">
-        <div class="quiet-mode-header">
-          <h3>Instant Quiet Mode</h3>
-          <div class="quiet-mode-toggle">
-            <button class="toggle-button" id="toggleButton">
-              <span class="toggle-icon" id="toggleIcon">🔇</span>
-              <span class="toggle-text" id="toggleText">Activate</span>
-            </button>
-          </div>
-        </div>
-        <p class="quiet-mode-description" id="quietModeDescription">
-          Throttle resource-heavy scripts for immediate performance relief
-        </p>
-      </div>
-    </div>
-
-    <!-- Performance Impact -->
-    <div class="impact-section" id="impactSection" style="display: none;">
-      <div class="impact-card">
-        <h3>Performance Impact</h3>
-        <div class="impact-stats">
-          <div class="stat">
-            <span class="stat-label">CPU Usage</span>
-            <div class="stat-bar">
-              <div class="stat-fill" id="cpuFill"></div>
+        <div class="main">
+            <div class="site-info">
+                <div class="site-url" id="currentSite">Loading...</div>
+                <div class="site-status" id="siteStatus">Analyzing page performance...</div>
             </div>
-            <span class="stat-value" id="cpuValue">Normal</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Network Activity</span>
-            <div class="stat-bar">
-              <div class="stat-fill" id="networkFill"></div>
+
+            <div class="status-card">
+                <div class="status-indicator inactive" id="statusIndicator">
+                    🔇
+                </div>
+                
+                <div class="status-text" id="statusText">QuietTab Inactive</div>
+                <div class="status-description" id="statusDescription">
+                    Click below to optimize this page's performance
+                </div>
+
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value" id="blockedCount">0</div>
+                        <div class="metric-label">Scripts Optimized</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="performanceGain">0%</div>
+                        <div class="metric-label">Performance Gain</div>
+                    </div>
+                </div>
+
+                <button class="toggle-button inactive" id="toggleButton">
+                    Activate QuietTab
+                </button>
             </div>
-            <span class="stat-value" id="networkValue">Reduced</span>
-          </div>
         </div>
-      </div>
+
+        <div class="footer">
+            <a href="#" class="footer-link" id="settingsLink">Settings</a>
+            <a href="#" class="footer-link" id="helpLink">Help</a>
+        </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-      <div class="footer-links">
-        <button class="link-button" id="testButton">🧪 Test Page</button>
-        <button class="link-button" id="settingsButton">Settings</button>
-        <button class="link-button" id="helpButton">Help</button>
-      </div>
-      <div class="version">v1.0.0</div>
-    </div>
-  </div>
-
-  <script src="popup.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>
 
