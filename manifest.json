@@ -40,8 +40,8 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["injected.js", "test-page.html"],
-      "matches": ["<all_urls>"]
+      "resources": ["injected.js", "test-page.html", "test-page.js", "test-page.css"],
+      "matches": ["chrome-extension://*/test-page.html"]
     }
   ]
 }
