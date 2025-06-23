@@ -12,12 +12,13 @@
         }
 
         body {
-            width: 380px;
-            height: 500px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #ffffff;
-            color: #1a1a1a;
+            width: 360px;
+            height: 480px;
+            font-family: 'Arial Black', Arial, sans-serif;
+            background: #000000;
+            color: #ffffff;
             overflow: hidden;
+            border: 2px solid #0066FF;
         }
 
         .container {
@@ -27,55 +28,63 @@
         }
 
         .header {
-            padding: 24px 20px 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 16px;
+            background: #0066FF;
+            color: #000000;
             text-align: center;
+            border-bottom: 2px solid #00FF66;
         }
 
         .logo {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .tagline {
-            font-size: 13px;
-            opacity: 0.9;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .main {
             flex: 1;
-            padding: 20px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
         .site-info {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid #e2e8f0;
+            background: #111111;
+            border: 2px solid #333333;
+            padding: 12px;
+            border-left: 4px solid #0066FF;
         }
 
         .site-url {
-            font-weight: 600;
-            font-size: 14px;
-            color: #1e293b;
+            font-weight: 900;
+            font-size: 12px;
+            color: #00FF66;
             margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .site-status {
-            font-size: 12px;
-            color: #64748b;
+            font-size: 10px;
+            color: #888888;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         .status-card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid #e2e8f0;
+            background: #111111;
+            border: 2px solid #333333;
+            padding: 16px;
             text-align: center;
             flex: 1;
             display: flex;
@@ -84,155 +93,181 @@
         }
 
         .status-indicator {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin: 0 auto 16px;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            transition: all 0.3s ease;
+            font-size: 20px;
+            font-weight: 900;
+            border: 3px solid;
+            transition: all 0.2s ease;
         }
 
         .status-indicator.active {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
+            background: #00FF66;
+            color: #000000;
+            border-color: #00FF66;
+            box-shadow: 0 0 20px #00FF66;
         }
 
         .status-indicator.inactive {
-            background: #f1f5f9;
-            color: #64748b;
-            border: 2px solid #e2e8f0;
+            background: #000000;
+            color: #FF0066;
+            border-color: #FF0066;
+            box-shadow: 0 0 20px #FF0066;
         }
 
         .status-text {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #1e293b;
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 6px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .status-description {
-            font-size: 13px;
-            color: #64748b;
-            margin-bottom: 20px;
-            line-height: 1.4;
+            font-size: 10px;
+            color: #888888;
+            margin-bottom: 16px;
+            line-height: 1.3;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         .metrics {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            gap: 8px;
         }
 
         .metric {
             text-align: center;
+            background: #000000;
+            border: 2px solid #333333;
+            padding: 8px;
+            flex: 1;
         }
 
         .metric-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #10b981;
+            font-size: 16px;
+            font-weight: 900;
+            color: #00FF66;
+            text-shadow: 0 0 10px #00FF66;
         }
 
         .metric-label {
-            font-size: 11px;
-            color: #64748b;
+            font-size: 8px;
+            color: #888888;
             margin-top: 2px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .toggle-button {
             width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
+            padding: 12px;
+            border: 3px solid;
+            font-size: 13px;
+            font-weight: 900;
             cursor: pointer;
             transition: all 0.2s ease;
-            background: #10b981;
-            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #000000;
+        }
+
+        .toggle-button.active {
+            color: #000000;
+            background: #00FF66;
+            border-color: #00FF66;
+            box-shadow: 0 0 20px #00FF66;
+        }
+
+        .toggle-button.inactive {
+            color: #FF0066;
+            background: #000000;
+            border-color: #FF0066;
+            box-shadow: 0 0 20px #FF0066;
         }
 
         .toggle-button:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .toggle-button.inactive {
-            background: #f1f5f9;
-            color: #64748b;
-            border: 1px solid #e2e8f0;
-        }
-
-        .toggle-button.inactive:hover {
-            background: #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            filter: brightness(1.2);
         }
 
         .footer {
-            padding: 12px 20px;
-            border-top: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-top: 2px solid #333333;
             text-align: center;
+            background: #111111;
         }
 
         .footer-link {
-            color: #64748b;
+            color: #888888;
             text-decoration: none;
-            font-size: 12px;
-            margin: 0 12px;
+            font-size: 10px;
+            font-weight: 700;
+            margin: 0 8px;
             transition: color 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .footer-link:hover {
-            color: #1e293b;
+            color: #0066FF;
+            text-shadow: 0 0 10px #0066FF;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">🔇 QuietTab</div>
-            <div class="tagline">Browser performance optimization</div>
+            <div class="logo">🔇 QUIETTAB</div>
+            <div class="tagline">PERFORMANCE OPTIMIZER</div>
         </div>
 
         <div class="main">
             <div class="site-info">
-                <div class="site-url" id="currentSite">Loading...</div>
-                <div class="site-status" id="siteStatus">Analyzing page performance...</div>
+                <div class="site-url" id="currentSite">LOADING...</div>
+                <div class="site-status" id="siteStatus">ANALYZING PERFORMANCE...</div>
             </div>
 
             <div class="status-card">
                 <div class="status-indicator inactive" id="statusIndicator">
-                    🔇
+                    ⚡
                 </div>
                 
-                <div class="status-text" id="statusText">QuietTab Inactive</div>
+                <div class="status-text" id="statusText">QUIETTAB INACTIVE</div>
                 <div class="status-description" id="statusDescription">
-                    Click below to optimize this page's performance
+                    CLICK TO OPTIMIZE PERFORMANCE
                 </div>
 
                 <div class="metrics">
                     <div class="metric">
                         <div class="metric-value" id="blockedCount">0</div>
-                        <div class="metric-label">Scripts Optimized</div>
+                        <div class="metric-label">OPTIMIZED</div>
                     </div>
                     <div class="metric">
                         <div class="metric-value" id="performanceGain">0%</div>
-                        <div class="metric-label">Performance Gain</div>
+                        <div class="metric-label">BOOST</div>
                     </div>
                 </div>
 
                 <button class="toggle-button inactive" id="toggleButton">
-                    Activate QuietTab
+                    ACTIVATE QUIETTAB
                 </button>
             </div>
         </div>
 
         <div class="footer">
-            <a href="#" class="footer-link" id="settingsLink">Settings</a>
-            <a href="#" class="footer-link" id="helpLink">Help</a>
+            <a href="#" class="footer-link" id="settingsLink">SETTINGS</a>
+            <a href="#" class="footer-link" id="helpLink">HELP</a>
+            <a href="#" class="footer-link" id="testLink">TEST</a>
         </div>
     </div>
 
