@@ -189,11 +189,12 @@ body {
 }
 
 .footer-link {
-  color: var(--secondary-text-color);
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: underline;
+  font-size: 13px;
+  font-weight: 600;
   transition: color 0.2s ease;
+  opacity: 0.9;
 }
 
 .footer-link:hover {
