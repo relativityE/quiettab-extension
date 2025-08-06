@@ -1,59 +1,110 @@
+/* Modern Dark Theme for QuietTab Test Page */
+
+:root {
+  --background-color: #1a1a1a;
+  --surface-color: #2c2c2c;
+  --primary-color: #3b82f6; /* Blue accent */
+  --primary-text-color: #ffffff;
+  --secondary-text-color: #a0a0a0;
+  --success-color: #22c55e; /* Green */
+  --border-color: #404040;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-  background-color: #1e1f22;
-  color: #ffffffcc;
-  font-family: "Segoe UI", sans-serif;
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  font-family: var(--font-family);
   padding: 2rem;
   margin: 0;
 }
 
 .container {
-  max-width: 600px;
-  margin: 0 auto;
-  background: #2a2b2f;
+  max-width: 800px;
+  margin: 2rem auto;
+  background: var(--surface-color);
   border-radius: 8px;
   padding: 2rem;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 
-.title {
-  color: #ffffff;
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+h1 {
+  color: var(--primary-text-color);
   margin-bottom: 0.5rem;
 }
 
-.subtitle {
-  font-size: 0.9rem;
-  color: #bbbbbb;
+p {
+  font-size: 1rem;
+  color: var(--secondary-text-color);
   margin-bottom: 1.5rem;
 }
 
-.button-group {
+.controls {
   display: flex;
-  gap: 10px;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
 }
 
 button {
-  background-color: #f9690e;
+  background-color: var(--primary-color);
   color: white;
-  padding: 10px 16px;
+  padding: 12px 20px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 button:hover {
-  background-color: #e55a05;
+  filter: brightness(1.1);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+#stopButton {
+  background-color: #dc2626; /* Red */
+}
+
+.simulation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.simulation-card {
+  background-color: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.simulation-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
 }
 
 .log-box {
-  background-color: #121212;
+  background-color: #111;
   padding: 1rem;
   border-radius: 6px;
-  font-size: 0.9rem;
-  font-family: monospace;
-  color: #6ddc86;
-  min-height: 100px;
+  font-size: 0.85rem;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  color: var(--success-color);
+  height: 150px;
+  overflow-y: auto;
   white-space: pre-wrap;
+  border: 1px solid var(--border-color);
 }

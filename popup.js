@@ -45,9 +45,9 @@ class QuietTabPopup {
       });
     }
 
-    const settingsLink = document.getElementById("settingsLink");
-    if (settingsLink) {
-      settingsLink.addEventListener("click", (e) => {
+    const testPageLink = document.getElementById("testPageLink");
+    if (testPageLink) {
+      testPageLink.addEventListener("click", (e) => {
         e.preventDefault();
         this.openTestPage();
       });

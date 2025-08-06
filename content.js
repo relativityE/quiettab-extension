@@ -194,9 +194,6 @@ class QuietTabMonitor {
   }
 
   activateQuietMode() {
-    // Throttle timers and intervals
-    this.throttleTimers();
-    
     // Send message to injected script to throttle page scripts
     window.postMessage({
       type: 'QUIETTAB_ACTIVATE',
@@ -205,33 +202,11 @@ class QuietTabMonitor {
   }
 
   deactivateQuietMode() {
-    // Restore normal timer behavior
-    this.restoreTimers();
-    
     // Send message to injected script to restore normal operation
     window.postMessage({
       type: 'QUIETTAB_DEACTIVATE',
       source: 'content-script'
     }, '*');
-  }
-
-  throttleTimers() {
-    // Override setInterval and setTimeout to throttle frequent calls
-    window.setInterval = (callback, delay, ...args) => {
-      const throttledDelay = Math.max(delay * 2, 1000); // At least 1 second
-      return this.originalSetInterval.call(window, callback, throttledDelay, ...args);
-    };
-
-    window.setTimeout = (callback, delay, ...args) => {
-      const throttledDelay = Math.max(delay * 1.5, 500); // At least 500ms
-      return this.originalSetTimeout.call(window, callback, throttledDelay, ...args);
-    };
-  }
-
-  restoreTimers() {
-    // Restore original timer functions
-    window.setInterval = this.originalSetInterval;
-    window.setTimeout = this.originalSetTimeout;
   }
 
   injectPageScript() {
@@ -245,6 +220,13 @@ class QuietTabMonitor {
   }
 }
 
-// Initialize the monitor
-new QuietTabMonitor();
+// Initialize the monitor if in a browser context
+if (typeof window !== 'undefined') {
+  new QuietTabMonitor();
+}
+
+// Export for testing
+if (typeof module !== 'undefined') {
+  module.exports = QuietTabMonitor;
+}
 

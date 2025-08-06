@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuietTab Test Runner</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; }
+    h1 { color: #333; }
+    #results { border: 1px solid #ccc; padding: 10px; background-color: #fff; }
+    .pass { color: green; font-weight: bold; }
+    .fail { color: red; font-weight: bold; }
+    pre { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>QuietTab Test Runner</h1>
+  <div id="results"></div>
+
+  <!-- Scripts under test -->
+  <script src="content.js"></script>
+
+  <!-- Test runner script -->
+  <script src="test-runner.js"></script>
+</body>
+</html>

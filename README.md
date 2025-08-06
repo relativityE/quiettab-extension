@@ -13,14 +13,14 @@ QuietTab is a Chrome extension that shows you exactly what's making your browser
 
 ### ⚡ Instant Quiet Mode
 - **One-click performance relief** - the hero feature
-- Automatically throttles the most resource-heavy non-essential scripts
+- Blocks the most resource-heavy, privacy-invading scripts and trackers
 - Provides immediate feedback with noticeable performance improvements
 - Users should feel the difference immediately (fan stops, browser feels snappier)
 
 ### 🛡️ Safe & Smart Operation
-- Prioritizes **throttling over blocking** to minimize page breakage
-- Internal safelist protects essential scripts (payment, login, core functionality)
-- Easy "Undo" functionality to restore normal operation if needed
+- Uses **modern, safe blocking** via Chrome's Declarative Net Request API
+- No risky script injections or page modifications that can cause breakage
+- Easy "Deactivate" functionality to restore normal operation if needed
 
 ### 📊 Performance Impact Visualization
 - Simple before/after indicators show resource usage changes
@@ -129,20 +129,17 @@ QuietTab is a Chrome extension that shows you exactly what's making your browser
 ### How It Works
 
 1. **Performance Monitoring:**
-   - Uses Chrome's PerformanceObserver API for resource monitoring
-   - Monitors network requests, long tasks, and resource usage
-   - Identifies suspicious patterns in script behavior
+   - The content script (`content.js`) still uses the PerformanceObserver API to monitor resources and identify resource-heavy scripts for display in the popup.
+   - This monitoring is **read-only** and does not modify the page.
 
-2. **Script Throttling:**
-   - Reduces execution frequency of resource-heavy scripts
-   - Throttles animation frames from 60fps to ~20fps
-   - Delays ad-related network requests
-   - Pauses autoplay videos and reduces canvas update frequency
+2. **Script Blocking (Quiet Mode):**
+   - When "Quiet Mode" is activated, the extension enables a set of rules using Chrome's `declarativeNetRequest` API.
+   - These rules block network requests to known ad, tracking, and analytics domains.
+   - This approach is managed by Chrome, is extremely efficient, and does not require injecting risky scripts to modify page behavior.
 
 3. **Safe Operation:**
-   - Maintains a safelist of essential scripts
-   - Prioritizes throttling over complete blocking
-   - Provides easy restoration of normal operation
+   - The blocking mechanism is the one recommended by Google for Manifest V3 extensions, ensuring safety and performance.
+   - Deactivating "Quiet Mode" instantly disables the blocking rules, restoring normal network requests.
 
 ### Browser Compatibility
 
@@ -214,10 +211,21 @@ quiettab-extension/
 
 ### Key Components
 
-- **Background Script:** Coordinates between popup and content scripts
-- **Content Script:** Monitors page performance and manages throttling
-- **Injected Script:** Runs in page context for deeper script control
-- **Popup Interface:** Displays data and controls for users
+- **Background Script:** Coordinates between popup and content scripts, manages blocking rules.
+- **Content Script:** Monitors page performance for display in the popup.
+- **Injected Script:** No longer used for throttling, kept for potential future features.
+- **Popup Interface:** Displays data and controls for users.
+
+### Running Tests
+
+Due to limitations in some development environments, this project uses a browser-based test runner instead of a command-line tool like Jest.
+
+1. **Load the Extension:** Make sure the extension is loaded in Chrome as an unpacked extension.
+2. **Open the Test Runner:**
+   - After loading the extension, note the **Extension ID** from the `chrome://extensions` page.
+   - Open a new tab and navigate to: `chrome-extension://<YOUR_EXTENSION_ID>/test-runner.html`
+   - Replace `<YOUR_EXTENSION_ID>` with the actual ID of the extension.
+3. **View Results:** The page will display the results of the automated unit tests.
 
 ## Contributing
 

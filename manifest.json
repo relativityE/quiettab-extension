@@ -7,8 +7,18 @@
     "activeTab",
     "scripting",
     "storage",
-    "tabs"
+    "tabs",
+    "declarativeNetRequest"
   ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
   "host_permissions": [
     "<all_urls>"
   ],
@@ -40,8 +50,15 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["injected.js", "test-page.html", "test-page.js", "test-page.css"],
-      "matches": ["chrome-extension://*/test-page.html"]
+      "resources": [
+        "injected.js",
+        "test-page.html",
+        "test-page.js",
+        "test-page.css",
+        "test-runner.html",
+        "test-runner.js"
+      ],
+      "matches": ["<all_urls>"]
     }
   ]
 }
