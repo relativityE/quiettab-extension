@@ -41,7 +41,7 @@
     "action": { "type": "block" },
     "condition": {
       "urlFilter": "||google-analytics.com",
-      "resourceTypes": ["script", "analytics"]
+      "resourceTypes": ["script"]
     }
   },
   {
