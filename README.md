@@ -61,21 +61,23 @@ This project uses a browser-based test runner for its unit tests.
 3.  **Open the test runner:** In a new tab, navigate to `chrome-extension://<YOUR_EXTENSION_ID>/test-runner.html`, replacing `<YOUR_EXTENSION_ID>` with the actual ID.
 4.  The page will display the results of the automated unit tests.
 
-### 4. Manual & E2E Testing
+### 4. Manual and End-to-End Testing
 
 For manual testing and to see the extension in action, a special test page is provided.
 
 1.  **Open the Test Page:** Click the QuietTab icon in the toolbar to open the popup, then click the "Test Page" link at the bottom.
 2.  **Start the Simulation:** On the test page, click the "Start Simulation" button. This will start a CPU-intensive script that the extension can detect.
-
+3.  **Use QuietTab:** While the simulation is running, use the QuietTab popup to activate and deactivate "Quiet Mode" and observe the effects on the test page and the extension's UI.
 
 ## Usage
+
+Once the extension is running, you can open its popup by clicking the QuietTab icon in your Chrome toolbar. The main way to use the extension is to click the large "Activate QuietTab" button inside the popup. This will enable Quiet Mode for the current tab.
 
 ### Basic Usage
 
 1. **Click the QuietTab Icon:**
-   - Look for the QuietTab icon in your Chrome toolbar
-   - Click it to open the performance monitor popup
+   - Look for the QuietTab icon in your Chrome toolbar.
+   - Click it to open the performance monitor popup.
 
 2. **Monitor Performance:**
    - The extension automatically analyzes the current tab
