@@ -16,22 +16,18 @@ class QuietTabTestPage {
 
   startSimulation() {
     const log = document.getElementById("log-output");
-    log.innerText = "Starting CPU simulation...";
+    log.innerText = "Starting CPU simulation... Sent message to content script.";
 
-    const intervalId = setInterval(() => {
-      const n = Math.random() * 100000;
-      for (let i = 0; i < n; i++) Math.sqrt(i);
-    }, 100);
-
-    this.intervals.set("cpu", intervalId);
+    // This message will be picked up by the content script
+    window.postMessage({ type: 'QUIETTAB_START_SIMULATION', source: 'test-page' }, '*');
   }
 
   stopSimulation() {
     const log = document.getElementById("log-output");
-    log.innerText = "Stopped simulation.";
+    log.innerText = "Stopping simulation... Sent message to content script.";
 
-    this.intervals.forEach(clearInterval);
-    this.intervals.clear();
+    // This message will be picked up by the content script
+    window.postMessage({ type: 'QUIETTAB_STOP_SIMULATION', source: 'test-page' }, '*');
   }
 
   toggleQuietMode() {

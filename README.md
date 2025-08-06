@@ -52,14 +52,22 @@ This guide covers how to download, install, run, and test the QuietTab extension
     *   Select the `quiettab-extension` folder you cloned earlier.
 4.  **Pin the Extension:** Click the puzzle icon in the toolbar, find QuietTab, and click the pin icon to keep it visible.
 
-### 3. Run Automated Tests
+### 3. Running Unit Tests
 
-This project uses a browser-based test runner, not a command-line tool.
+This project uses a browser-based test runner for its unit tests.
 
-1.  **Load the extension** as described above.
-2.  **Find the Extension ID** on the `chrome://extensions` page. It's a long string of characters.
-3.  **Open the test runner:** Open a new tab and navigate to `chrome-extension://<YOUR_EXTENSION_ID>/test-runner.html`, replacing `<YOUR_EXTENSION_ID>` with the ID from the previous step.
-4.  The page will display the test results.
+1.  **Load the extension** as described in the previous step.
+2.  **Find the Extension ID** on the `chrome://extensions` page.
+3.  **Open the test runner:** In a new tab, navigate to `chrome-extension://<YOUR_EXTENSION_ID>/test-runner.html`, replacing `<YOUR_EXTENSION_ID>` with the actual ID.
+4.  The page will display the results of the automated unit tests.
+
+### 4. Manual & E2E Testing
+
+For manual testing and to see the extension in action, a special test page is provided.
+
+1.  **Open the Test Page:** Click the QuietTab icon in the toolbar to open the popup, then click the "Test Page" link at the bottom.
+2.  **Start the Simulation:** On the test page, click the "Start Simulation" button. This will start a CPU-intensive script that the extension can detect.
+3.  **Use QuietTab:** While the simulation is running, use the QuietTab popup to activate and deactivate "Quiet Mode" and observe the effects on the test page and the extension's UI.
 
 ## Usage
 
