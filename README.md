@@ -27,43 +27,43 @@ QuietTab is a Chrome extension that shows you exactly what's making your browser
 - Visual feedback reinforces the value delivered
 - Color-coded impact levels (High, Medium, Low)
 
-## Installation
+## Getting Started
 
-### Method 1: Load Unpacked Extension (Developer Mode) - RECOMMENDED
+This guide covers how to download, install, run, and test the QuietTab extension.
 
-1. **Enable Developer Mode in Chrome:**
-   - Open Chrome and go to `chrome://extensions/`
-   - Toggle "Developer mode" in the top right corner
+### 1. Download and Install
 
-2. **Load the Extension:**
-   - Click "Load unpacked"
-   - Select the `quiettab-extension` folder
-   - The QuietTab extension should now appear in your extensions list
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/relativityE/quiettab-extension.git
+    cd quiettab-extension
+    ```
+2.  **(Optional) Install dependencies:** This project has no external dependencies, but it's good practice to run `npm install`.
+    ```bash
+    npm install
+    ```
 
-3. **Pin the Extension:**
-   - Click the puzzle piece icon in Chrome's toolbar
-   - Find QuietTab and click the pin icon to keep it visible
+### 2. Run the Extension in Developer Mode
 
-4. **Test the Extension:**
-   - Click the QuietTab icon to open the popup
-   - Click "🧪 Test Page" to open the demonstration page
-   - Try the resource-heavy simulations to see QuietTab in action!
+1.  **Open Chrome Extensions:** Navigate to `chrome://extensions`.
+2.  **Enable Developer Mode:** Turn on the "Developer mode" toggle in the top-right corner.
+3.  **Load the Extension:**
+    *   Click "Load unpacked".
+    *   Select the `quiettab-extension` folder you cloned earlier.
+4.  **Pin the Extension:** Click the puzzle icon in the toolbar, find QuietTab, and click the pin icon to keep it visible.
 
-### Method 2: Package and Install
+### 3. Run Automated Tests
 
-1. **Create Extension Package:**
-   - Go to `chrome://extensions/`
-   - Click "Pack extension"
-   - Select the `quiettab-extension` folder as the root directory
-   - Click "Pack Extension" to create a `.crx` file
+This project uses a browser-based test runner, not a command-line tool.
 
-2. **Install the Package:**
-   - Drag and drop the `.crx` file onto the `chrome://extensions/` page
-   - Click "Add extension" when prompted
+1.  **Load the extension** as described above.
+2.  **Find the Extension ID** on the `chrome://extensions` page. It's a long string of characters.
+3.  **Open the test runner:** Open a new tab and navigate to `chrome-extension://<YOUR_EXTENSION_ID>/test-runner.html`, replacing `<YOUR_EXTENSION_ID>` with the ID from the previous step.
+4.  The page will display the test results.
 
 ## Usage
 
-### Getting Started
+### Basic Usage
 
 1. **Click the QuietTab Icon:**
    - Look for the QuietTab icon in your Chrome toolbar
@@ -86,35 +86,6 @@ QuietTab is a Chrome extension that shows you exactly what's making your browser
 - **Instant Quiet Mode:** One-click toggle for performance relief
 - **Performance Impact:** Shows CPU and network usage improvements when active
 - **Test Page Button:** Opens a demonstration page to test QuietTab's effectiveness
-
-### Testing QuietTab
-
-**IMPORTANT:** Use the built-in test page to see QuietTab in action!
-
-1. **Open Test Page:**
-   - Click the QuietTab icon in your toolbar
-   - Click "🧪 Test Page" button
-   - This opens a special demonstration page
-
-2. **Run Simulations:**
-   - Click "💥 START ALL" to simulate heavy resource usage
-   - Watch CPU usage spike and animations go crazy
-   - Notice your browser becoming sluggish
-
-3. **Activate QuietTab:**
-   - Click the QuietTab icon while simulations are running
-   - Click "Activate" to enable Quiet Mode
-   - **Immediately see the difference:**
-     - CPU usage drops dramatically
-     - Animations slow down
-     - Memory blocks turn green
-     - Browser becomes responsive again
-
-4. **Visual Feedback:**
-   - Green memory blocks show optimized resources
-   - Slower animations indicate throttling is working
-   - CPU meter shows reduced usage
-   - Performance impact cards show before/after comparison
 
 ### When to Use Quiet Mode
 
@@ -189,43 +160,6 @@ QuietTab is a Chrome extension that shows you exactly what's making your browser
 - **No External Servers:** No data is sent to external servers
 - **Open Source:** Code is available for review and audit
 
-## Development
-
-### File Structure
-
-```
-quiettab-extension/
-├── manifest.json          # Extension configuration
-├── background.js          # Service worker for coordination
-├── content.js            # Content script for page monitoring
-├── injected.js           # Page context script for deep monitoring
-├── popup.html            # Extension popup interface
-├── popup.css             # Popup styling
-├── popup.js              # Popup functionality
-└── icons/                # Extension icons
-    ├── icon16.png
-    ├── icon32.png
-    ├── icon48.png
-    └── icon128.png
-```
-
-### Key Components
-
-- **Background Script:** Coordinates between popup and content scripts, manages blocking rules.
-- **Content Script:** Monitors page performance for display in the popup.
-- **Injected Script:** No longer used for throttling, kept for potential future features.
-- **Popup Interface:** Displays data and controls for users.
-
-### Running Tests
-
-Due to limitations in some development environments, this project uses a browser-based test runner instead of a command-line tool like Jest.
-
-1. **Load the Extension:** Make sure the extension is loaded in Chrome as an unpacked extension.
-2. **Open the Test Runner:**
-   - After loading the extension, note the **Extension ID** from the `chrome://extensions` page.
-   - Open a new tab and navigate to: `chrome-extension://<YOUR_EXTENSION_ID>/test-runner.html`
-   - Replace `<YOUR_EXTENSION_ID>` with the actual ID of the extension.
-3. **View Results:** The page will display the results of the automated unit tests.
 
 ## Contributing
 

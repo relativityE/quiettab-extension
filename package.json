@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "**Tagline:** \"Shut down noisy ads. Reclaim your browser. Instantly.\"",
   "main": "background.js",
-  "scripts": {
-    "test": "jest --watchAll=false"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/relativityE/quiettab-extension.git"
