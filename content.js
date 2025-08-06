@@ -10,6 +10,7 @@ class QuietTabMonitor {
     this.throttledScripts = new Set();
     this.originalSetInterval = window.setInterval;
     this.originalSetTimeout = window.setTimeout;
+    this.cpuSimulationInterval = null;
     this.init();
   }
 
@@ -18,6 +19,13 @@ class QuietTabMonitor {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       this.handleMessage(message, sender, sendResponse);
       return true;
+    });
+
+    // Listen for messages from the test page
+    window.addEventListener('message', (event) => {
+      if (event.source === window && event.data.source === 'test-page') {
+        this.handleTestPageMessage(event.data);
+      }
     });
 
     // Start monitoring when page is ready
@@ -44,6 +52,37 @@ class QuietTabMonitor {
 
       default:
         sendResponse({ error: 'Unknown message type' });
+    }
+  }
+
+  handleTestPageMessage(message) {
+    switch (message.type) {
+      case 'QUIETTAB_START_SIMULATION':
+        this.startCpuSimulation();
+        break;
+      case 'QUIETTAB_STOP_SIMULATION':
+        this.stopCpuSimulation();
+        break;
+    }
+  }
+
+  startCpuSimulation() {
+    if (this.cpuSimulationInterval) return;
+    console.log('QuietTab: Starting CPU simulation.');
+    this.cpuSimulationInterval = setInterval(() => {
+      const n = Math.random() * 100000;
+      for (let i = 0; i < n; i++) {
+        // Simulate CPU work
+        Math.sqrt(i);
+      }
+    }, 100);
+  }
+
+  stopCpuSimulation() {
+    if (this.cpuSimulationInterval) {
+      console.log('QuietTab: Stopping CPU simulation.');
+      clearInterval(this.cpuSimulationInterval);
+      this.cpuSimulationInterval = null;
     }
   }
 

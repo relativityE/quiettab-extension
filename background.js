@@ -79,6 +79,17 @@ class QuietTabBackground {
   async toggleQuietMode(tabId) {
     if (!tabId) return;
 
+    // Ensure the content script is ready before sending a message.
+    // This is a robust way to avoid "Receiving end does not exist" errors.
+    try {
+      await chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        files: ['content.js'],
+      });
+    } catch (e) {
+      console.warn(`QuietTab: Could not inject script into tab ${tabId}. This is expected on special pages like chrome://. Error: ${e.message}`);
+    }
+
     const currentStatus = this.quietModeActive.get(tabId) || false;
     const newStatus = !currentStatus;
     
@@ -86,12 +97,10 @@ class QuietTabBackground {
 
     // Enable or disable the declarativeNetRequest ruleset
     if (newStatus) {
-      // Enable the ruleset
       await chrome.declarativeNetRequest.updateEnabledRulesets({
         enableRulesetIds: ["ruleset_1"]
       });
     } else {
-      // Disable the ruleset
       await chrome.declarativeNetRequest.updateEnabledRulesets({
         disableRulesetIds: ["ruleset_1"]
       });
@@ -104,7 +113,9 @@ class QuietTabBackground {
         active: newStatus
       });
     } catch (error) {
-      console.error('Failed to send quiet mode status to content script:', error);
+      // This can still fail if the content script is not listening for some reason,
+      // but the injection above makes it much less likely.
+      console.debug('Failed to send quiet mode status to content script:', error.message);
     }
   }
 
