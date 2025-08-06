@@ -43,8 +43,8 @@ class QuietTabBackground {
         break;
 
       case 'TOGGLE_QUIET_MODE':
-        await this.toggleQuietMode(message.tabId || tabId);
-        sendResponse({ success: true });
+        const newStatus = await this.toggleQuietMode(message.tabId || tabId);
+        sendResponse({ success: true, status: newStatus });
         break;
 
       case 'GET_QUIET_MODE_STATUS':
@@ -77,7 +77,7 @@ class QuietTabBackground {
   }
 
   async toggleQuietMode(tabId) {
-    if (!tabId) return;
+    if (!tabId) return false;
 
     // Ensure the content script is ready before sending a message.
     // This is a robust way to avoid "Receiving end does not exist" errors.
@@ -117,6 +117,8 @@ class QuietTabBackground {
       // but the injection above makes it much less likely.
       console.debug('Failed to send quiet mode status to content script:', error.message);
     }
+
+    return newStatus;
   }
 
   getQuietModeStatus(tabId) {
