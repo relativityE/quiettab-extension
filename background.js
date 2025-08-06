@@ -84,14 +84,27 @@ class QuietTabBackground {
     
     this.quietModeActive.set(tabId, newStatus);
 
-    // Send message to content script to activate/deactivate quiet mode
+    // Enable or disable the declarativeNetRequest ruleset
+    if (newStatus) {
+      // Enable the ruleset
+      await chrome.declarativeNetRequest.updateEnabledRulesets({
+        enableRulesetIds: ["ruleset_1"]
+      });
+    } else {
+      // Disable the ruleset
+      await chrome.declarativeNetRequest.updateEnabledRulesets({
+        disableRulesetIds: ["ruleset_1"]
+      });
+    }
+
+    // Send message to content script to update its state
     try {
       await chrome.tabs.sendMessage(tabId, {
         type: 'SET_QUIET_MODE',
         active: newStatus
       });
     } catch (error) {
-      console.error('Failed to toggle quiet mode:', error);
+      console.error('Failed to send quiet mode status to content script:', error);
     }
   }
 
