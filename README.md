@@ -67,7 +67,7 @@ For manual testing and to see the extension in action, a special test page is pr
 
 1.  **Open the Test Page:** Click the QuietTab icon in the toolbar to open the popup, then click the "Test Page" link at the bottom.
 2.  **Start the Simulation:** On the test page, click the "Start Simulation" button. This will start a CPU-intensive script that the extension can detect.
-3.  **Use QuietTab:** While the simulation is running, use the QuietTab popup to activate and deactivate "Quiet Mode" and observe the effects on the test page and the extension's UI.
+
 
 ## Usage
 
