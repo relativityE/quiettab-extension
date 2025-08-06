@@ -1,7 +1,8 @@
 // Content script for QuietTab extension
 // Monitors page performance and manages script throttling
 
-class QuietTabMonitor {
+if (typeof QuietTabMonitor === 'undefined') {
+  class QuietTabMonitor {
   constructor() {
     this.resourceData = [];
     this.observer = null;
@@ -267,5 +268,6 @@ if (typeof window !== 'undefined') {
 // Export for testing
 if (typeof module !== 'undefined') {
   module.exports = QuietTabMonitor;
+}
 }
 

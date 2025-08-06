@@ -90,17 +90,6 @@ class QuietTabBackground {
       console.warn(`QuietTab: Could not inject script into tab ${tabId}. This is expected on special pages like chrome://. Error: ${e.message}`);
     }
 
-    // Ensure the content script is ready before sending a message.
-    // This is a robust way to avoid "Receiving end does not exist" errors.
-    try {
-      await chrome.scripting.executeScript({
-        target: { tabId: tabId },
-        files: ['content.js'],
-      });
-    } catch (e) {
-      console.warn(`QuietTab: Could not inject script into tab ${tabId}. This is expected on special pages like chrome://. Error: ${e.message}`);
-    }
-
     const currentStatus = this.quietModeActive.get(tabId) || false;
     const newStatus = !currentStatus;
     
