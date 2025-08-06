@@ -110,7 +110,7 @@ Once the extension is running, you can open its popup by clicking the QuietTab i
 ### How It Works
 
 1. **Performance Monitoring:**
-   - The content script (`content.js`) still uses the PerformanceObserver API to monitor resources and identify resource-heavy scripts for display in the popup.
+   - The content script (`content.js`) uses the PerformanceObserver API to monitor resources and identify resource-heavy scripts for display in the popup.
    - This monitoring is **read-only** and does not modify the page.
 
 2. **Script Blocking (Quiet Mode):**
